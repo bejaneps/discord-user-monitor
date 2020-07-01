@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
@@ -36,7 +37,7 @@ var (
 	discordServerMaxScrolls        = pflag.IntP("d-server-max-scrolls", "s", 150, "Discord server maximum amount of scrolls to be done (10 for 100 users, 100 for 1000 users and etc)")
 	discordServerScrollRefreshTime = pflag.IntP("d-server-scroll-refresh-time", "r", 300, "Time in milliseconds to wait after scrolling (higher value is better, lower value is faster scraping)")
 
-	pathToOutputFile = pflag.StringP("output", "o", "users.csv", "path to output file (in .csv format)")
+	pathToOutputFile = pflag.StringP("output", "o", "", "path to output file (in .csv format)")
 	pathToLogFile    = pflag.StringP("log", "l", "", "path to log file (in .log format)")
 )
 
@@ -90,22 +91,33 @@ func main() {
 
 	logger = log.New(loggerFile, "", log.LstdFlags)
 
-	// check if output file exists, if no then create it
-	_, err = os.Stat(*pathToOutputFile)
-	if errors.Is(err, os.ErrNotExist) {
-		logger.Println("Creating new file")
-		outputFile, err = os.Create(*pathToOutputFile)
-		if err != nil {
-			logger.Printf("Couldn't create output file: %v\n", err)
-			runtime.Goexit()
+	// check if user supplied output file, if no then create temporary file, in temporary directory
+	if *pathToOutputFile != "" {
+		// check if output file exists, if no then create it
+		_, err = os.Stat(*pathToOutputFile)
+		if errors.Is(err, os.ErrNotExist) {
+			logger.Println("Creating new file")
+			outputFile, err = os.Create(*pathToOutputFile)
+			if err != nil {
+				logger.Printf("Couldn't create output file: %v\n", err)
+				runtime.Goexit()
+			}
+		} else {
+			logger.Println("Opening existing file")
+			outputFile, err = os.OpenFile(*pathToOutputFile, os.O_WRONLY, os.ModePerm)
+			if err != nil {
+				logger.Printf("Couldn't open output file: %v\n", err)
+				runtime.Goexit()
+			}
 		}
 	} else {
-		logger.Println("Opening existing file")
-		outputFile, err = os.OpenFile(*pathToOutputFile, os.O_WRONLY, os.ModePerm)
+		logger.Println("Creating new temporary file")
+		outputFile, err = ioutil.TempFile(os.TempDir(), "*.csv")
 		if err != nil {
-			logger.Printf("Couldn't open output file: %v\n", err)
+			logger.Printf("Couldn't create temporary output file: %v\n", err)
 			runtime.Goexit()
 		}
+		logger.Printf("Path to output file: %s\n", outputFile.Name())
 	}
 	defer outputFile.Close()
 

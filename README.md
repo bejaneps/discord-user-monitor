@@ -38,7 +38,7 @@ From client's description:
 8. `--d-username` - Discord personal username, if this argument is supplied, then your username won't be added to final output file.
 9. `--d-server-max-scrolls, -s` - amount of scrolls to be done for right user bar. For 0 to 10 users: 1, for 10 to 100 users: 10, for 100 to 1000 users: 100 and etc, default **150**.
 10. `--d-server-scroll-refresh-time, -r` - time to wait (in milliseconds) after each scroll, value over 500 guarantees that all users will be scrapped, less than 500 will scrap faster, but with less chance of scrapping all users, default **300**.
-11. `--output, -o` - path to final output file, which will be in .csv format, default **users.csv**.
+11. `--output, -o` - path to final output file, which will be in .csv format, if not supplied, then tool will create temporary file in temporary directory.
 12. `--scrapping-interval, -i` - time interval (in minutes) between each scrapping process, default **60**
 13. `--log, -l` - path to log file, where all logs will be stored (in .log format)
 14. `--help, -h` - view help message.
