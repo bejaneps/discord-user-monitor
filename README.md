@@ -20,6 +20,7 @@ From client's description:
 1. Download [golang](https://www.golang.org/), install and configure it.
 2. Download this tool using either `go get -u -v github.com/bejaneps/discord-user-monitor` or `git clone https://github.com/bejaneps/discord-user-monitor.git`
 3. Build program from source using _build.sh_ script for Linux, or _build.bat_ for Windows.
+3.5. If you want to use Firefox as a testing browser for Selenium on Windows, then don't forget to download [Microsoft Windows redistributable](https://support.microsoft.com/en-in/help/2977003/the-latest-supported-visual-c-downloads)
 4. Run selenium standalone server in different terminal instance: `java -jar selenium-standalone-server.jar`
 5. Change your folder to bin, and run tool.
 6. You can view additional arguments and flags using `--help` argument. Example: `scrapper --help`
@@ -29,7 +30,7 @@ From client's description:
 # Tool flags
 
 1. `--selenium-port` - is a port of Selenium server, default is **4444**.
-2. `--selenium-browser` - browser to use for scraping, for now _chrome_ and _firefox_ are available options, firefox appears to work faster, default **firefox**.
+2. `--selenium-browser` - browser to use for scraping, for now _chrome_ and _firefox_ are available options, firefox appears to work faster, **windows** chrome version appears to be buggy, so better use firefox for windows, default **firefox**.
 3. `--d-load-time` - time needed (in seconds) to load discord login page and then to login, if page won't load in specified seconds, then tool will throw error and exit, default **10**.
 4. `--d-email` - Discord account email, used for login, without it tool won't run.
 5. `--d-password` - Discord account password, used for login, without it tool won't run.
