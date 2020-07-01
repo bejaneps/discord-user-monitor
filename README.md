@@ -48,3 +48,11 @@ From client's description:
 Basically this tool logins into a Discord, clicks on a specified server link, and then starts to scrap data using user bar on right side, it has to scroll each time, because not all of the users are visible on page (lazy load technique). It stops to scroll when amount of max_scroll are reached, approximate time that will take it to finish: max_scrolls * scroll_refresh_time.
 
 Real username is added to output file, not the one that's visible on each user icon. Type of user is added as well, like 'user' or 'bot'. Status can be several types, like: Online, Offline, Idle and etc. Status Time is a time when user status was scrapped.
+
+# Screenshots
+
+![Help flag](/screenshots/scrapper-help.png)
+![Selenium Browser](screenshots/selenium-browser.png)
+![Logged In](screenshots/scrapper-logged-in.png)
+![Scrapping User Data](screenshots/scrapping-user-data.png)
+![Output](screenshots/scrapper-output.png)
