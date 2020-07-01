@@ -72,6 +72,7 @@ func main() {
 		loggerFile *os.File
 		logger     *log.Logger
 		driver     selenium.WebDriver
+		outputFile *os.File
 	)
 
 	// check if user wants to store logs somewhere else
@@ -90,8 +91,6 @@ func main() {
 	logger = log.New(loggerFile, "", log.LstdFlags)
 
 	// check if output file exists, if no then create it
-	var outputFile *os.File
-
 	_, err = os.Stat(*pathToOutputFile)
 	if errors.Is(err, os.ErrNotExist) {
 		logger.Println("Creating new file")
@@ -179,7 +178,7 @@ func main() {
 
 			// find and click server link
 			if *discordServerName != "" { // find by name
-				serverLink, err := driver.FindElement(selenium.ByCSSSelector, fmt.Sprintf(`a[aria-label="%s"`, *discordServerName))
+				serverLink, err := driver.FindElement(selenium.ByCSSSelector, fmt.Sprintf(`a[aria-label="%s"]`, *discordServerName))
 				if err != nil {
 					logger.Printf("Finding server link: %v\n", err)
 					runtime.Goexit()
@@ -191,7 +190,7 @@ func main() {
 					runtime.Goexit()
 				}
 			} else { // find by id
-				serverLink, err := driver.FindElement(selenium.ByCSSSelector, fmt.Sprintf(`a[href*="%s"`, *discordServerID))
+				serverLink, err := driver.FindElement(selenium.ByCSSSelector, fmt.Sprintf(`a[href*="%s"]`, *discordServerID))
 				if err != nil {
 					logger.Printf("Finding server link: %v\n", err)
 					runtime.Goexit()
