@@ -1,1 +1,1 @@
-go build -o ./bin/scrapper ./cmd/cli/main.go
+go build -o ./bin/scrapper ./cmd/scrapper/main.go

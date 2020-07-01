@@ -29,17 +29,19 @@ From client's description:
 # Tool flags
 
 1. `--selenium-port` - is a port of Selenium server, default is **4444**.
-2. `--selenium-browser` - browser to use for scraping, for now _chrome_ and _firefox_ are available options, default **firefox**.
+2. `--selenium-browser` - browser to use for scraping, for now _chrome_ and _firefox_ are available options, firefox appears to work faster, default **firefox**.
 3. `--d-load-time` - time needed (in seconds) to load discord login page and then to login, if page won't load in specified seconds, then tool will throw error and exit, default **10**.
 4. `--d-email` - Discord account email, used for login, without it tool won't run.
 5. `--d-password` - Discord account password, used for login, without it tool won't run.
-6. `--d-server-id` - Discord server ID, from where to scrap data, you can either use ID or Server Name.
+6. `--d-server-id` - Discord server ID, from where to scrap data, you can either use ID or Server Name, without it tool won't run.
 7. `--d-server-name` - Discord server name, from where to scrap data, see above.
 8. `--d-username` - Discord personal username, if this argument is supplied, then your username won't be added to final output file.
 9. `--d-server-max-scrolls, -s` - amount of scrolls to be done for right user bar. For 0 to 10 users: 1, for 10 to 100 users: 10, for 100 to 1000 users: 100 and etc, default **150**.
-10. `--d-server-scroll-refresh-time, -r` - time to wait (in milliseconds) after each scroll, value over 500 guarantees that all users will be scrapper, less than 500 will scrap faster, but with less chance of scrapping all users, default **300**.
+10. `--d-server-scroll-refresh-time, -r` - time to wait (in milliseconds) after each scroll, value over 500 guarantees that all users will be scrapped, less than 500 will scrap faster, but with less chance of scrapping all users, default **300**.
 11. `--output, -o` - path to final output file, which will be in .csv format, default **users.csv**.
-12. `--help, -h` - view help message.
+12. `--scrapping-interval, -i` - time interval (in minutes) between each scrapping process, default **60**
+13. `--log, -l` - path to log file, where all logs will be stored (in .log format)
+14. `--help, -h` - view help message.
 
 # Additional Information
 
