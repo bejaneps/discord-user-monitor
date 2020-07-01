@@ -20,7 +20,10 @@ import (
 	"github.com/spf13/pflag"
 )
 
-const discordLoginPage = "https://discord.com/login"
+const (
+	discordLoginPage = "https://discord.com/login"
+	timeFormat       = "2006-01-02 15:04"
+)
 
 var (
 	seleniumPort    = pflag.Int("selenium-port", 4444, "port of selenium server")
@@ -41,13 +44,31 @@ var (
 	pathToLogFile    = pflag.StringP("log", "l", "", "path to log file (in .log format)")
 )
 
+type Time struct {
+	time.Time
+}
+
+func (t Time) MarshalCSV() ([]byte, error) {
+	var b [len(timeFormat)]byte
+	return t.AppendFormat(b[:0], timeFormat), nil
+}
+
+func (t *Time) UnmarshalCSV(data []byte) error {
+	tt, err := time.Parse(timeFormat, string(data))
+	if err != nil {
+		return err
+	}
+	*t = Time{Time: tt}
+	return nil
+}
+
 // User struct represents a user with it's status in Discord
 type User struct {
 	Username string `csv:"username"`
 	Status   string `csv:"status"`
 	Type     string `csv:"type"` // user or bot
 
-	StatusTime time.Time `csv:"status_time"` // time when user changed status
+	StatusTime Time `csv:"status_time"` // time when user changed status
 }
 
 func main() {
@@ -280,7 +301,7 @@ func main() {
 						Username:   username,
 						Status:     status,
 						Type:       userType,
-						StatusTime: time.Now(),
+						StatusTime: Time{time.Now()},
 					}
 				}
 
@@ -314,6 +335,7 @@ func main() {
 				usersSlice = append(usersSlice, v)
 			}
 
+			// write data to csv file
 			err = csvutil.NewEncoder(csvWriter).Encode(&usersSlice)
 			if err != nil {
 				logger.Printf("Couldn't add users to output file: %v\n", err)
@@ -328,6 +350,7 @@ func main() {
 		}
 	}()
 
+	// deal Ctrl + C signal, and close opened resources
 	logger.Println("Waiting for SIGINT signal")
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
